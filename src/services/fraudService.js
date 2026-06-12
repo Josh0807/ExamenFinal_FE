@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5219";
+import { buildApiUrl } from "@/lib/config";
 
 async function parseError(response) {
   const text = await response.text();
@@ -12,7 +12,7 @@ async function parseError(response) {
 }
 
 export async function getFraudReports() {
-  const response = await fetch(`${API_URL}/api/Fraud`);
+  const response = await fetch(buildApiUrl("/api/Fraud"));
 
   if (!response.ok) {
     throw new Error(await parseError(response));
@@ -22,7 +22,7 @@ export async function getFraudReports() {
 }
 
 export async function createFraudReport(report) {
-  const response = await fetch(`${API_URL}/api/Fraud`, {
+  const response = await fetch(buildApiUrl("/api/Fraud"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(report),
